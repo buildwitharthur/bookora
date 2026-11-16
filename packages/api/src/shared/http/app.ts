@@ -1,4 +1,5 @@
-import fastify, { FastifyServerOptions } from "fastify";
+import fastify from "fastify";
+import fastifyCors from "@fastify/cors";
 
 import {
   serializerCompiler,
@@ -28,6 +29,24 @@ const app = fastify({
 app.setValidatorCompiler(validatorCompiler);
 app.setSerializerCompiler(serializerCompiler);
 
+app.register(fastifyCors, {
+  origin: process.env.CLIENT_ORIGIN ?? false,
+  methods: [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS",
+  ],
+  allowedHeaders: [
+    "Content-Type",
+    "Authorization",
+    "X-Requested-With",
+  ],
+  credentials: true,
+  maxAge: 86_400,
+});
 app.register(errorHandlerPlugin);
 app.register(routes);
 
