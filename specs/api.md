@@ -15,11 +15,11 @@ Erros seguem:
 
 ```json
 {
-    "error": {
-        "code": "SLOT_UNAVAILABLE",
-        "message": "O horário selecionado não está mais disponível.",
-        "details": []
-    }
+  "error": {
+    "code": "SLOT_UNAVAILABLE",
+    "message": "O horário selecionado não está mais disponível.",
+    "details": []
+  }
 }
 ```
 
@@ -33,20 +33,20 @@ Este módulo expõe limites e inicia a cobrança recorrente. O gateway concreto 
 
 ```json
 {
-    "data": [
-        {
-            "code": "basic",
-            "name": "Basic",
-            "monthlyAppointmentLimit": 1000,
-            "serviceLimit": 10
-        },
-        {
-            "code": "pro",
-            "name": "Pro",
-            "monthlyAppointmentLimit": 5000,
-            "serviceLimit": null
-        }
-    ]
+  "data": [
+    {
+      "code": "basic",
+      "name": "Basic",
+      "monthlyAppointmentLimit": 1000,
+      "serviceLimit": 10
+    },
+    {
+      "code": "pro",
+      "name": "Pro",
+      "monthlyAppointmentLimit": 5000,
+      "serviceLimit": null
+    }
+  ]
 }
 ```
 
@@ -58,9 +58,9 @@ Exige sessão. Corpo:
 
 ```json
 {
-    "planCode": "basic",
-    "successUrl": "https://app.exemplo.com/onboarding/sucesso",
-    "cancelUrl": "https://app.exemplo.com/planos"
+  "planCode": "basic",
+  "successUrl": "https://app.exemplo.com/onboarding/sucesso",
+  "cancelUrl": "https://app.exemplo.com/planos"
 }
 ```
 
@@ -82,14 +82,14 @@ Use para identidade pública e agenda recorrente. Exige sessão. O perfil pode s
 
 ```json
 {
-    "name": "Salão do Arthur",
-    "slug": "salao-do-arthur",
-    "logoUrl": "https://.../logo.png",
-    "description": "Cortes e cuidados masculinos.",
-    "address": "Rua Exemplo, 100 — São Paulo/SP",
-    "phone": "+5511999999999",
-    "accentColor": "#5B2EFF",
-    "timezone": "America/Sao_Paulo"
+  "name": "Salão do Arthur",
+  "slug": "salao-do-arthur",
+  "logoUrl": "https://.../logo.png",
+  "description": "Cortes e cuidados masculinos.",
+  "address": "Rua Exemplo, 100 — São Paulo/SP",
+  "phone": "+5511999999999",
+  "accentColor": "#5B2EFF",
+  "timezone": "America/Sao_Paulo"
 }
 ```
 
@@ -99,45 +99,50 @@ Retorne `200 OK` com o recurso, incluindo `id`. Logo, descrição, endereço e t
 
 ```json
 {
-    "days": [
-        {
-            "weekday": 1,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "18:00"
-        },
-        {
-            "weekday": 2,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "18:00"
-        },
-        {
-            "weekday": 3,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "18:00"
-        },
-        {
-            "weekday": 4,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "18:00"
-        },
-        {
-            "weekday": 5,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "18:00"
-        },
-        {
-            "weekday": 6,
-            "isOpen": true,
-            "startTime": "09:00",
-            "endTime": "14:00"
-        },
-        { "weekday": 0, "isOpen": false, "startTime": null, "endTime": null }
-    ]
+  "days": [
+    {
+      "weekday": 1,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "18:00"
+    },
+    {
+      "weekday": 2,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "18:00"
+    },
+    {
+      "weekday": 3,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "18:00"
+    },
+    {
+      "weekday": 4,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "18:00"
+    },
+    {
+      "weekday": 5,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "18:00"
+    },
+    {
+      "weekday": 6,
+      "isOpen": true,
+      "startTime": "09:00",
+      "endTime": "14:00"
+    },
+    {
+      "weekday": 0,
+      "isOpen": false,
+      "startTime": null,
+      "endTime": null
+    }
+  ]
 }
 ```
 
@@ -156,7 +161,11 @@ Todas as rotas exigem sessão e assinatura ativa.
 | `DELETE` | `/services/{serviceId}` | Remove serviço.   |
 
 ```json
-{ "name": "Corte masculino", "priceCents": 8000, "durationMinutes": 45 }
+{
+  "name": "Corte masculino",
+  "priceCents": 8000,
+  "durationMinutes": 45
+}
 ```
 
 Nome, preço e duração são obrigatórios. Criação retorna `201`; leitura e edição, `200`; remoção, `204`. Retorne `403 PLAN_LIMIT_REACHED` se exceder o limite. A remoção não altera o retrato do serviço em reservas existentes.
@@ -169,21 +178,21 @@ Todas as rotas exigem sessão e assinatura ativa.
 
 ```json
 {
-    "id": "apt_01J...",
-    "service": {
-        "id": "srv_01J...",
-        "name": "Corte masculino",
-        "priceCents": 8000,
-        "durationMinutes": 45
-    },
-    "customerName": "Maria Silva",
-    "customerPhone": "+5511999999999",
-    "date": "2026-11-17",
-    "startTime": "14:00",
-    "endTime": "14:45",
-    "status": "confirmed",
-    "createdAt": "2026-11-16T14:01:12Z",
-    "updatedAt": "2026-11-16T14:01:12Z"
+  "id": "apt_01J...",
+  "service": {
+    "id": "srv_01J...",
+    "name": "Corte masculino",
+    "priceCents": 8000,
+    "durationMinutes": 45
+  },
+  "customerName": "Maria Silva",
+  "customerPhone": "+5511999999999",
+  "date": "2026-11-17",
+  "startTime": "14:00",
+  "endTime": "14:45",
+  "status": "confirmed",
+  "createdAt": "2026-11-16T14:01:12Z",
+  "updatedAt": "2026-11-16T14:01:12Z"
 }
 ```
 
@@ -200,7 +209,9 @@ Retorne o agendamento, com `200 OK`.
 ### `PATCH /appointments/{appointmentId}/status`
 
 ```json
-{ "status": "completed" }
+{
+  "status": "completed"
+}
 ```
 
 Aceite apenas `completed` ou `cancelled`. Cancelamento libera o intervalo ao público.
@@ -208,7 +219,10 @@ Aceite apenas `completed` ou `cancelled`. Cancelamento libera o intervalo ao pú
 ### `POST /appointments/{appointmentId}/reschedule`
 
 ```json
-{ "date": "2026-11-17", "startTime": "15:00" }
+{
+  "date": "2026-11-17",
+  "startTime": "15:00"
+}
 ```
 
 Valide funcionamento, duração e conflitos. Atualize data e hora, marque `rescheduled` e retorne `200`. Se indisponível, retorne `409 SLOT_UNAVAILABLE`. Não consuma nova unidade da franquia.
@@ -223,24 +237,24 @@ Retorne informações públicas e serviços:
 
 ```json
 {
-    "establishment": {
-        "name": "Salão do Arthur",
-        "slug": "salao-do-arthur",
-        "logoUrl": "https://.../logo.png",
-        "description": "Cortes e cuidados masculinos.",
-        "address": "Rua Exemplo, 100 — São Paulo/SP",
-        "phone": "+5511999999999",
-        "accentColor": "#5B2EFF",
-        "timezone": "America/Sao_Paulo"
-    },
-    "services": [
-        {
-            "id": "srv_01J...",
-            "name": "Corte masculino",
-            "priceCents": 8000,
-            "durationMinutes": 45
-        }
-    ]
+  "establishment": {
+    "name": "Salão do Arthur",
+    "slug": "salao-do-arthur",
+    "logoUrl": "https://.../logo.png",
+    "description": "Cortes e cuidados masculinos.",
+    "address": "Rua Exemplo, 100 — São Paulo/SP",
+    "phone": "+5511999999999",
+    "accentColor": "#5B2EFF",
+    "timezone": "America/Sao_Paulo"
+  },
+  "services": [
+    {
+      "id": "srv_01J...",
+      "name": "Corte masculino",
+      "priceCents": 8000,
+      "durationMinutes": 45
+    }
+  ]
 }
 ```
 
@@ -250,9 +264,14 @@ Se não houver assinatura ativa, retorne `423 ESTABLISHMENT_UNAVAILABLE`.
 
 ```json
 {
-    "date": "2026-11-17",
-    "timezone": "America/Sao_Paulo",
-    "slots": [{ "startTime": "09:00", "endTime": "09:45" }]
+  "date": "2026-11-17",
+  "timezone": "America/Sao_Paulo",
+  "slots": [
+    {
+      "startTime": "09:00",
+      "endTime": "09:45"
+    }
+  ]
 }
 ```
 
@@ -262,11 +281,11 @@ Aceite somente hoje ou amanhã no fuso do estabelecimento. Não retorne horário
 
 ```json
 {
-    "serviceId": "srv_01J...",
-    "date": "2026-11-17",
-    "startTime": "14:00",
-    "customerName": "Maria Silva",
-    "customerPhone": "+5511999999999"
+  "serviceId": "srv_01J...",
+  "date": "2026-11-17",
+  "startTime": "14:00",
+  "customerName": "Maria Silva",
+  "customerPhone": "+5511999999999"
 }
 ```
 
