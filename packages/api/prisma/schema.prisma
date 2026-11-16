@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/shared/database/prisma/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum PlanCode {
+  BASIC
+  PRO
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  PAST_DUE
+  CANCELED
+}
+
+enum AppointmentStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  RESCHEDULED
+}
+
+model Plan {
+  code                    PlanCode       @id
+  name                    String
+  monthlyAppointmentLimit Int
+  serviceLimit            Int?
+  subscriptions           Subscription[]
+  createdAt               DateTime       @default(now())
+  updatedAt               DateTime       @updatedAt
+}
+
+model Establishment {
+  id            String         @id @default(cuid())
+  ownerId       String         @unique
+  name          String
+  slug          String         @unique
+  logoUrl       String?
+  description   String?
+  address       String?
+  phone         String?
+  accentColor   String
+  timezone      String         @default("America/Sao_Paulo")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  businessHours BusinessHour[]
+  services      Service[]
+  appointments  Appointment[]
+  subscription  Subscription?
+}
+
+model BusinessHour {
+  id              String        @id @default(cuid())
+  establishmentId String
+  weekday         Int
+  isOpen          Boolean       @default(false)
+  startTime       DateTime?     @db.Time(0)
+  endTime         DateTime?     @db.Time(0)
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+
+  @@unique([establishmentId, weekday])
+}
+
+model Service {
+  id              String        @id @default(cuid())
+  establishmentId String
+  name            String
+  priceCents      Int
+  durationMinutes Int
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  establishment   Establishment @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  appointments    Appointment[]
+
+  @@index([establishmentId])
+}
+
+model Appointment {
+  id                     String            @id @default(cuid())
+  establishmentId        String
+  serviceId              String?
+  serviceName            String
+  servicePriceCents      Int
+  serviceDurationMinutes Int
+  customerName           String
+  customerPhone          String
+  startsAt               DateTime
+  endsAt                 DateTime
+  status                 AppointmentStatus @default(CONFIRMED)
+  createdAt              DateTime          @default(now())
+  updatedAt              DateTime          @updatedAt
+  establishment          Establishment     @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  service                Service?          @relation(fields: [serviceId], references: [id], onDelete: SetNull)
+
+  @@index([establishmentId, startsAt])
+  @@index([establishmentId, createdAt])
+}
+
+model Subscription {
+  id                     String             @id @default(cuid())
+  establishmentId        String             @unique
+  planCode               PlanCode
+  status                 SubscriptionStatus
+  providerCustomerId     String?            @unique
+  providerSubscriptionId String?            @unique
+  currentPeriodStart     DateTime
+  currentPeriodEnd       DateTime
+  createdAt              DateTime           @default(now())
+  updatedAt              DateTime           @updatedAt
+  establishment          Establishment      @relation(fields: [establishmentId], references: [id], onDelete: Cascade)
+  plan                   Plan               @relation(fields: [planCode], references: [code])
+
+  @@index([status])
+}

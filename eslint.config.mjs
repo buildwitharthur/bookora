@@ -13,7 +13,10 @@ export default defineConfig([
 
   {
     files: ["**/*.{js,mjs,cjs,ts,tsx,jsx}"],
-    extends: [js.configs.recommended, tseslint.configs.recommended],
+    extends: [
+      js.configs.recommended,
+      tseslint.configs.recommended,
+    ],
   },
 
   eslintPrettier,
