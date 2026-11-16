@@ -4,10 +4,8 @@ import {
   createServiceBodySchema,
   createServiceResponseSchema,
 } from "../schemas/create-service.schema.js";
+import { FAKE_ESTABLISHMENT_ID } from "../constants/fake-establishment-id.js";
 import { createServiceUseCase } from "../usecases/create-service.usecase.js";
-
-// TODO: substituir pelo estabelecimento da sessão quando o auth existir.
-const FAKE_ESTABLISHMENT_ID = "fake-establishment-id";
 
 export const createServiceController: FastifyPluginAsyncZod =
   async app => {
