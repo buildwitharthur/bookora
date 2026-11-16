@@ -17,7 +17,4 @@ export const auth = betterAuth({
         .GOOGLE_CLIENT_SECRET as string,
     },
   },
-  trustedOrigins: process.env.CLIENT_ORIGIN
-    ? [process.env.CLIENT_ORIGIN]
-    : [],
 });

@@ -4,7 +4,6 @@ import {
   createServiceBodySchema,
   createServiceResponseSchema,
 } from "../schemas/create-service.schema.js";
-import { FAKE_ESTABLISHMENT_ID } from "../constants/fake-establishment-id.js";
 import { createServiceUseCase } from "../usecases/create-service.usecase.js";
 
 export const createServiceController: FastifyPluginAsyncZod =
@@ -17,7 +16,7 @@ export const createServiceController: FastifyPluginAsyncZod =
       handler: async (request, reply) => {
         const service = await createServiceUseCase({
           ...request.body,
-          establishmentId: FAKE_ESTABLISHMENT_ID,
+          establishmentId: request.establishmentId,
         });
 
         return reply.status(201).send({

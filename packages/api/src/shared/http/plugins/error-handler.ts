@@ -24,17 +24,17 @@ export const errorHandlerPlugin = fp(async app => {
         );
         return reply.status(400).send({
           code: "VALIDATION_ERROR",
-          message: "Invalid request data",
+          message: "Dados da requisição inválidos.",
           details: error.validation.map(issue => ({
             path: issue.instancePath,
-            message: issue.message ?? "Invalid value",
+            message: issue.message ?? "Valor inválido.",
           })),
         });
       }
 
       return reply.status(500).send({
         code: "INTERNAL_SERVER_ERROR",
-        message: "An unexpected error occurred",
+        message: "Ocorreu um erro inesperado.",
       });
     },
   );

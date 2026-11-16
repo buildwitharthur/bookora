@@ -9,6 +9,9 @@ import {
 import { routes } from "./routes/index.js";
 import { randomUUID } from "node:crypto";
 import { errorHandlerPlugin } from "./plugins/error-handler.js";
+import { z } from "zod";
+
+z.config(z.locales.pt());
 
 const app = fastify({
   genReqId: () => randomUUID(),
